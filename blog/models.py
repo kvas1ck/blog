@@ -1,6 +1,13 @@
 from django.db import models
 from django.conf import settings
 
+class PostQuerySet(models.QuerySet):
+    def published(self):
+        return self.filter(status = 'published', published_at__isnull=False)
+
+    def with_related(self):
+        return self.select_related('author','category').prefetch_related('tag')
+
 class Category(models.Model):
     name = models.CharField(max_length=50,unique=True)
     slug = models.SlugField(max_length=70,unique=True)
@@ -31,6 +38,7 @@ class Post(models.Model):
         DRAFT = 'draft', 'Draft'
         PUBLISHED = 'published', 'Published'
 
+    objects = PostQuerySet.as_manager()
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220,unique=True)
     excerpt = models.CharField(max_length=200,blank=True)
@@ -48,3 +56,4 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
