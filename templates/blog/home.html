@@ -2,75 +2,137 @@
 
 
 {% block title %}
-    Posts | Personal Blog
+    Latest Posts | Personal Blog
 {% endblock %}
 
 
 {% block content %}
 
-    <section>
+    <section class="hero">
 
-        <h1>Latest Posts</h1>
+        <p class="hero-label">
+            Personal development blog
+        </p>
 
-        {% for post in posts %}
+        <h1>
+            Python, Django &
+            Backend Development
+        </h1>
 
-            <article>
+        <p class="hero-description">
+            Articles about Django, Python,
+            databases, backend architecture
+            and software engineering.
+        </p>
+
+    </section>
+
+
+    <section class="posts-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="section-label">
+                    Blog
+                </p>
 
                 <h2>
-                    {{ post.title }}
+                    Latest Posts
                 </h2>
 
-                <p>
-                    By {{ post.author.username }}
-                </p>
+            </div>
 
-                {% if post.category %}
-                    <p>
-                        Category:
-                        {{ post.category.name }}
-                    </p>
-                {% endif %}
+        </div>
 
-                <p>
-                    Published:
-                    {{ post.published_at|date:"d.m.Y H:i" }}
-                </p>
 
-                {% if post.excerpt %}
-                    <p>
-                        {{ post.excerpt }}
-                    </p>
-                {% endif %}
+        <div class="posts-grid">
 
-                {% with tags=post.tags.all %}
+            {% for post in posts %}
 
-                    {% if tags %}
-                        <p>
-                            Tags:
+                <article class="post-card">
 
-                            {% for tag in tags %}
+                    <div class="post-card-meta">
 
-                                {{ tag.name }}
+                        {% if post.category %}
 
-                                {% if not forloop.last %}
-                                    ,
-                                {% endif %}
+                            <span class="category-badge">
+                                {{ post.category.name }}
+                            </span>
 
-                            {% endfor %}
+                        {% endif %}
+
+
+                        <time datetime="{{ post.published_at|date:'c' }}">
+                            {{ post.published_at|date:"d M Y" }}
+                        </time>
+
+                    </div>
+
+
+                    <h3 class="post-card-title">
+                        {{ post.title }}
+                    </h3>
+
+
+                    {% if post.excerpt %}
+
+                        <p class="post-card-excerpt">
+                            {{ post.excerpt }}
                         </p>
+
                     {% endif %}
 
-                {% endwith %}
 
-            </article>
+                    {% with tags=post.tags.all %}
 
-        {% empty %}
+                        {% if tags %}
 
-            <p>
-                No published posts yet.
-            </p>
+                            <div class="tag-list">
 
-        {% endfor %}
+                                {% for tag in tags %}
+
+                                    <span class="tag">
+                                        #{{ tag.name }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endwith %}
+
+
+                    <div class="post-card-footer">
+
+                        <span>
+                            By {{ post.author.username }}
+                        </span>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        No posts yet
+                    </h3>
+
+                    <p>
+                        Published articles will appear here.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
 
     </section>
 
