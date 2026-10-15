@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Post
+
 
 def home(request):
-    return HttpResponse('personal blog')
+    posts = Post.objects.published()
+    return render(request, "blog/home.html", {"posts":posts})
 
 def about(request):
-    return HttpResponse('Я Тимур и я пиздабол')
+    return render(request,"blog/about.html")
