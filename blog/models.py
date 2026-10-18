@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 class PostQuerySet(models.QuerySet):
     def published(self):
@@ -50,6 +51,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now= True)
     published_at = models.DateTimeField(blank= True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', kwargs={'slug':self.slug})
 
     class Meta:
         ordering = ['-created_at']

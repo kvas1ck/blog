@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ post.title }} | Personal Blog
+{% endblock %}
+
+
+{% block content %}
+
+    <article class="post-detail">
+
+        <header class="post-detail-header">
+
+            {% if post.category %}
+
+                <span class="category-badge">
+                    {{ post.category.name }}
+                </span>
+
+            {% endif %}
+
+
+            <h1>
+                {{ post.title }}
+            </h1>
+
+
+            {% if post.excerpt %}
+
+                <p class="post-detail-excerpt">
+                    {{ post.excerpt }}
+                </p>
+
+            {% endif %}
+
+
+            <div class="post-detail-meta">
+
+                <span>
+                    By {{ post.author.username }}
+                </span>
+
+                <time datetime="{{ post.published_at|date:'c' }}">
+                    {{ post.published_at|date:"d M Y" }}
+                </time>
+
+            </div>
+
+        </header>
+
+
+        <div class="post-content">
+
+            {{ post.content|linebreaks }}
+
+        </div>
+
+
+        {% with tags=post.tags.all %}
+
+            {% if tags %}
+
+                <footer class="post-detail-footer">
+
+                    <p>
+                        Tags
+                    </p>
+
+                    <div class="tag-list">
+
+                        {% for tag in tags %}
+
+                            <span class="tag">
+                                #{{ tag.name }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </footer>
+
+            {% endif %}
+
+        {% endwith %}
+
+    </article>
+
+{% endblock %}
