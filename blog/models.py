@@ -21,6 +21,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('blog:category_posts',kwargs={'slug':self.slug})
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50,unique=True)
@@ -32,6 +35,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('blog:tag_posts',kwargs={'slug':self.slug})
 
 class Post(models.Model):
 

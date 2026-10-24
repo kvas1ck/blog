@@ -1,0 +1,82 @@
+<article class="post-card">
+
+    <div class="post-card-meta">
+
+        {% if post.category %}
+
+            <a
+                class="category-badge"
+                href="{{ post.category.get_absolute_url }}"
+            >
+                {{ post.category.name }}
+            </a>
+
+        {% endif %}
+
+
+        <time datetime="{{ post.published_at|date:'c' }}">
+            {{ post.published_at|date:"d M Y" }}
+        </time>
+
+    </div>
+
+
+    <h2 class="post-card-title">
+
+        <a href="{{ post.get_absolute_url }}">
+            {{ post.title }}
+        </a>
+
+    </h2>
+
+
+    {% if post.excerpt %}
+
+        <p class="post-card-excerpt">
+            {{ post.excerpt }}
+        </p>
+
+    {% endif %}
+
+
+    {% with tags=post.tags.all %}
+
+        {% if tags %}
+
+            <div class="tag-list">
+
+                {% for tag in tags %}
+
+                    <a
+                        class="tag"
+                        href="{{ tag.get_absolute_url }}"
+                    >
+                        #{{ tag.name }}
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="post-card-footer">
+
+        <span>
+            By {{ post.author.username }}
+        </span>
+
+
+        <a
+            class="read-more-link"
+            href="{{ post.get_absolute_url }}"
+        >
+            Read article →
+        </a>
+
+    </div>
+
+</article>
