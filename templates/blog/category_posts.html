@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ category.name }} | Personal Blog
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="archive-header">
+
+        <p class="section-label">
+            Category
+        </p>
+
+        <h1>
+            {{ category.name }}
+        </h1>
+
+        <p>
+            Articles published in the
+            {{ category.name }} category.
+        </p>
+
+    </section>
+
+
+    <section class="posts-section">
+
+        <div class="posts-grid">
+
+            {% for post in posts %}
+
+                {% include "blog/includes/post_card.html" with post=post %}
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h2>
+                        No published posts
+                    </h2>
+
+                    <p>
+                        There are no published posts
+                        in this category yet.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endblock %}

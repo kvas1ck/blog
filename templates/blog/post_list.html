@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Latest Posts | Personal Blog
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="hero">
+
+        <p class="hero-label">
+            Personal development blog
+        </p>
+
+        <h1>
+            Python, Django &
+            Backend Development
+        </h1>
+
+        <p class="hero-description">
+            Articles about Django, Python,
+            databases, backend architecture
+            and software engineering.
+        </p>
+
+    </section>
+
+
+    <section class="posts-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="section-label">
+                    Blog
+                </p>
+
+                <h2>
+                    Latest Posts
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="posts-grid">
+
+            {% for post in posts %}
+
+                {% include "blog/includes/post_card.html" with post=post %}
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        No posts yet
+                    </h3>
+
+                    <p>
+                        Published articles will appear here.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endblock %}
