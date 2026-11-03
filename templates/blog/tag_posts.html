@@ -30,7 +30,7 @@
 
         <div class="posts-grid">
 
-            {% for post in posts %}
+            {% for post in page_obj %}
 
                 {% include "blog/includes/post_card.html" with post=post %}
 
@@ -52,6 +52,8 @@
             {% endfor %}
 
         </div>
+
+        {% include "blog/includes/pagination.html" with page_obj=page_obj %}
 
     </section>
 
