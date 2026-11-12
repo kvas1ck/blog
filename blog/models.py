@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Q
 
 class PostQuerySet(models.QuerySet):
     def published(self):
@@ -9,6 +10,21 @@ class PostQuerySet(models.QuerySet):
     def with_related(self):
         return self.select_related('author','category').prefetch_related('tag')
 
+    def for_listing(self):
+        return self.published().with_related().order_by("-published_at")
+
+    def search(self,query):
+        query = query.strip()
+
+        if not query:
+            return self
+
+        return self.filter(
+            Q(title__icontains = query)
+            | Q (excerpt__icontains = query)
+            | Q (content__icontains = query)
+        )
+    
 class Category(models.Model):
     name = models.CharField(max_length=50,unique=True)
     slug = models.SlugField(max_length=70,unique=True)

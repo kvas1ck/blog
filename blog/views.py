@@ -4,11 +4,13 @@ from .pagination import paginate_queryset
 
 
 def home(request):
-    posts = Post.objects.published().with_related().order_by("-published_at")
+    query = request.GET.get("q","").strip()
+
+    posts = Post.objects.for_listing().search(query)
 
     page_obj = paginate_queryset(request,posts)
 
-    return render(request, "blog/post_list.html", {"page_obj":page_obj})
+    return render(request, "blog/post_list.html", {"page_obj":page_obj, "query": query})
 
 def about(request):
     return render(request,"blog/about.html")
@@ -28,7 +30,7 @@ def category_posts(request,slug):
 
     category = get_object_or_404(Category,slug=slug)
 
-    posts = category.posts.published().with_related().order_by("-published_at")
+    posts = category.posts.for_listing()
 
     page_obj = paginate_queryset(request, posts)
     context = {
@@ -43,7 +45,7 @@ def tag_posts(request,slug):
 
     tag = get_object_or_404(Tag,slug=slug)
 
-    posts = tag.posts.published().with_related().order_by("-published_at")
+    posts = tag.posts.for_listing()
 
     page_obj = paginate_queryset(request, posts)
     context ={

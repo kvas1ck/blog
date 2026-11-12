@@ -9,7 +9,8 @@
 
             <a
                 class="pagination-link"
-                href="?page={{ page_obj.previous_page_number }}"
+                href="{% querystring page=page_obj.previous_page_number %}"
+                aria-label="Previous page"
             >
                 ←
             </a>
@@ -34,7 +35,7 @@
 
                     <a
                         class="pagination-number"
-                        href="?page={{ page_number }}"
+                        href="{% querystring page=page_number %}"
                     >
                         {{ page_number }}
                     </a>
@@ -50,7 +51,8 @@
 
             <a
                 class="pagination-link"
-                href="?page={{ page_obj.next_page_number }}"
+                href="{% querystring page=page_obj.next_page_number %}"
+                aria-label="Next page"
             >
                 →
             </a>
