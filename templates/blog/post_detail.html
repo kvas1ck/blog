@@ -14,11 +14,12 @@
 
             {% if post.category %}
 
-                <span class="category-badge">
-                    <a href="{{ post.category.get_absolute_url }}">
-                        {{ post.category.name }}
-                    </a>
-                </span>
+                <a
+                    class="category-badge"
+                    href="{{ post.category.get_absolute_url }}"
+                >
+                    {{ post.category.name }}
+                </a>
 
             {% endif %}
 
@@ -59,28 +60,36 @@
         </div>
 
 
-        <footer class="post-detail-footer">
+        {% with tags=post.tags.all %}
 
-            <p>
-                Tags
-            </p>
+            {% if tags %}
 
-            <div class="tag-list">
+                <footer class="post-detail-footer">
 
-                <!-- Исправлено с post.tags.all на post.tag.all -->
-                {% for tag in post.tag.all %}
+                    <p>
+                        Tags
+                    </p>
 
-                    <span class="tag">
-                        <a href="{{ tag.get_absolute_url }}">
-                            #{{ tag.name }}
-                        </a>
-                    </span>
+                    <div class="tag-list">
 
-                {% endfor %}
+                        {% for tag in tags %}
 
-            </div>
+                            <a
+                                class="tag"
+                                href="{{ tag.get_absolute_url }}"
+                            >
+                                #{{ tag.name }}
+                            </a>
 
-        </footer>
+                        {% endfor %}
+
+                    </div>
+
+                </footer>
+
+            {% endif %}
+
+        {% endwith %}
 
     </article>
 

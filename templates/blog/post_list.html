@@ -2,7 +2,11 @@
 
 
 {% block title %}
-    Latest Posts | Personal Blog
+    {% if query %}
+        Search: {{ query }} | Personal Blog
+    {% else %}
+        Latest Posts | Personal Blog
+    {% endif %}
 {% endblock %}
 
 
@@ -28,19 +32,83 @@
     </section>
 
 
+    <section class="search-section">
+
+        <form
+            class="search-form"
+            action="{% url 'blog:home' %}"
+            method="get"
+            role="search"
+        >
+
+            <label
+                class="visually-hidden"
+                for="search-query"
+            >
+                Search articles
+            </label>
+
+            <input
+                id="search-query"
+                class="search-input"
+                type="search"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search articles..."
+                maxlength="200"
+            >
+
+            <button
+                class="search-button"
+                type="submit"
+            >
+                Search
+            </button>
+
+        </form>
+
+    </section>
+
+
     <section class="posts-section">
 
         <div class="section-heading">
 
             <div>
 
-                <p class="section-label">
-                    Blog
-                </p>
+                {% if query %}
 
-                <h2>
-                    Latest Posts
-                </h2>
+                    <p class="section-label">
+                        Search
+                    </p>
+
+                    <h2>
+                        Results for “{{ query }}”
+                    </h2>
+
+                    <p class="search-results-count">
+                        {{ page_obj.paginator.count }}
+                        result{{ page_obj.paginator.count|pluralize }}
+                    </p>
+
+                    <a
+                        class="clear-search-link"
+                        href="{% url 'blog:home' %}"
+                    >
+                        Clear search
+                    </a>
+
+                {% else %}
+
+                    <p class="section-label">
+                        Blog
+                    </p>
+
+                    <h2>
+                        Latest Posts
+                    </h2>
+
+                {% endif %}
 
             </div>
 
@@ -57,21 +125,37 @@
 
                 <div class="empty-state">
 
-                    <h3>
-                        No posts yet
-                    </h3>
+                    {% if query %}
 
-                    <p>
-                        Published articles will appear here.
-                    </p>
+                        <h3>
+                            No results found
+                        </h3>
+
+                        <p>
+                            No articles matched
+                            “{{ query }}”.
+                        </p>
+
+                    {% else %}
+
+                        <h3>
+                            No posts yet
+                        </h3>
+
+                        <p>
+                            Published articles will appear here.
+                        </p>
+
+                    {% endif %}
 
                 </div>
-
-                {% include "blog/includes/pagination.html" with page_obj=page_obj %}
 
             {% endfor %}
 
         </div>
+
+
+        {% include "blog/includes/pagination.html" with page_obj=page_obj %}
 
     </section>
 
