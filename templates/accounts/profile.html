@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Profile | Personal Blog
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="profile-section">
+
+        <div class="profile-header">
+
+            <p class="section-label">
+                Account
+            </p>
+
+            <h1>
+                Profile
+            </h1>
+
+            <p>
+                Your Personal Blog account information.
+            </p>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Username
+                </span>
+
+                <strong>
+                    {{ user.username }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Email
+                </span>
+
+                <strong>
+                    {% if user.email %}
+                        {{ user.email }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Joined
+                </span>
+
+                <strong>
+                    {{ user.date_joined|date:"d M Y" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}
